@@ -43,6 +43,8 @@ void insertCarMaker(node * head, int val);
 
 void insertCarModel(node * head, int val, int pos);
 
+void search(node *head, int key);
+
 
 
 

@@ -78,3 +78,16 @@ while (current->below != NULL) {
 
 
 }
+
+void search(node *head, int key){
+    while (head != NULL){
+        if (head->test == key){
+            printf("key found\n");
+            printCarModels(head);
+            return;
+        }
+        head = head->next;
+}
+    printf("Key not found\n");
+
+}

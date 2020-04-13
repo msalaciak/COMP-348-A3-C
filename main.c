@@ -12,16 +12,21 @@
 int main(int argc, const char * argv[]) {
     
     //declare head of top list elements
+    
+
+
     node * head = NULL;
     head = (node *) malloc(sizeof(node));
     if (head == NULL) {
         return 1;
     }
-    
-    
+
     head->test = 1; //first
     head->next = NULL;
     head->below = NULL;
+    
+    
+    insertCarMaker(head,1);
     
     insertCarModel(head, 2, 1); // first - 1st below
     
@@ -32,10 +37,13 @@ int main(int argc, const char * argv[]) {
     
      insertCarMaker(head,7);  //3rd
      insertCarModel(head, 13, 7); //3rd - 1st below
+    insertCarModel(head, 8, 1);
     
 //    printCarMakers(head);
 //    printCarModels(head);
     printEntireList(head);
+    
+    search(head, 7);
     
 //
 //    CarMaker;
