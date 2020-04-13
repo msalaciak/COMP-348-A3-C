@@ -11,39 +11,36 @@
 #define STRINGSIZE 200
 #include <stdio.h>
 
-typedef struct node {
-    const char data[STRINGSIZE];
-    struct node* next;
-    struct node* below;
-    int test;
-} node;
 
 
 
 typedef struct CarModel {
     
-   char model_list[STRINGSIZE];
-   int counter;
- 
+    char model_listing[STRINGSIZE];
+    int counter;
     int size;
 } CarModel;
 
 typedef struct CarMaker {
-   char carMake[STRINGSIZE];
-   int counter;
-   
-  
+    char manufacturer[STRINGSIZE];
+    struct CarMaker* next;
+    struct CarMaker* below;
+    int test;
+    CarModel car;
+    int size;
 } CarMaker;
 
-void printCarMakers(node * head);
-void printCarModels(node* head);
-void printEntireList(node* head);
 
-void insertCarMaker(node * head, int val);
 
-void insertCarModel(node * head, int val, int pos);
+void printCarMakers(CarMaker * head);
+void printCarModels(CarMaker* head);
+void printEntireList(CarMaker* head);
 
-void search(node *head, int key);
+void insertCarMaker(CarMaker * head, char *maker);
+
+void insertCarModel(CarMaker * head, CarModel *model, char *maker);
+
+void search(CarMaker *head, int key);
 
 
 

@@ -8,78 +8,83 @@
 
 #include "multi-list.h"
 
-void printCarMakers(node* head) {
-    node * current = head;
-
-
+void printCarMakers(CarMaker* head) {
+    CarMaker * current = head;
+    
+    
     while (current != NULL) {
-        printf("%d\n", current->test);
-
+        printf("%s ", current->manufacturer);
+        
         current = current->next;
     }
 }
 
-void printCarModels(node* head)
+void printCarModels(CarMaker* head)
 {
-    node * current = head->below;
-  while(current != NULL){
-    printf("%d\n", current->test);
-      current = current->below;
-  }
-
+    CarMaker * current = head->below;
+    while(current != NULL){
+        printf("%s \n", current->car.model_listing);
+        current = current->below;
+    }
+    
 }
 
 
-void printEntireList(node* head) {
-    node * current = head;
-
-
+void printEntireList(CarMaker* head) {
+    CarMaker * current = head;
+    
+    
     while (current != NULL) {
-        printf("%d\n", current->test);
+        printCarMakers(current);
         printCarModels(current);
         current = current->next;
     }
 }
 
 
-void insertCarMaker(node * head, int val) {
-node * current = head;
-while (current->next != NULL) {
-    current = current->next;
-}
+void insertCarMaker(CarMaker * head, char *maker) {
+    CarMaker * current = head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
     
-    current->next = (node *) malloc(sizeof(node));
-    current->next->test = val;
+    current->next = (CarMaker *) malloc(sizeof(CarMaker));
+  
+    strcpy(current->next->manufacturer,maker);
     current->next->next = NULL;
     current->next->below = NULL;
-
+    current->size++;
+    
 }
 
-void insertCarModel(node * head, int val, int pos) {
-node * current = head;
+void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
+    CarMaker * current = head;
     
     while (current->next != NULL) {
-        if(current->test == pos) {
+        if(current->manufacturer == maker) {
+          printf("here\n");
             break;
         } else {
             current = current->next;
         }
         
     }
-   
-while (current->below != NULL) {
-    current = current->below;
-}
     
-    current->below = (node *) malloc(sizeof(node));
-    current->below->test = val;
-     current->below->next = NULL;
+       
+    while (current->below != NULL) {
+        current = current->below;
+    }
+    
+    current->below = (CarMaker *) malloc(sizeof(CarMaker));
+    current->below->car = *model;
+//    strcpy(current->below->car.model_listing,model);
+    current->below->next = NULL;
     current->below->below = NULL;
-
-
+    
+    
 }
 
-void search(node *head, int key){
+void search(CarMaker *head, int key){
     while (head != NULL){
         if (head->test == key){
             printf("key found\n");
@@ -87,7 +92,7 @@ void search(node *head, int key){
             return;
         }
         head = head->next;
-}
+    }
     printf("Key not found\n");
-
+    
 }
