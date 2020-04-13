@@ -90,7 +90,6 @@ int main(int argc, const char * argv[]) {
     
    
     //    //input first elements
-    head->test = 1; //first
     head -> size =0;
     strcpy(head->manufacturer,manufacturers[0].manufacturer);
     head->next = NULL;
@@ -114,7 +113,8 @@ int main(int argc, const char * argv[]) {
 //            printCarModels(head);
         printEntireList(head);
     //
-    //    search(head, 7);
+   
+    search(head, manufacturers[0].manufacturer);
     
     
     

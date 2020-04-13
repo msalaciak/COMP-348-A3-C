@@ -25,7 +25,6 @@ typedef struct CarMaker {
     char manufacturer[STRINGSIZE];
     struct CarMaker* next;
     struct CarMaker* below;
-    int test;
     CarModel car;
     int size;
 } CarMaker;
@@ -40,7 +39,7 @@ void insertCarMaker(CarMaker * head, char *maker);
 
 void insertCarModel(CarMaker * head, CarModel *model, char *maker);
 
-void search(CarMaker *head, int key);
+void search(CarMaker *head, char *maker);
 
 
 

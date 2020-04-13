@@ -62,7 +62,6 @@ void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
     
     while (current->next != NULL) {
         if(current->manufacturer == maker) {
-          printf("here\n");
             break;
         } else {
             current = current->next;
@@ -84,9 +83,11 @@ void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
     
 }
 
-void search(CarMaker *head, int key){
+void search(CarMaker *head, char *maker){
+    printf("%s \n" , maker);
+  
     while (head != NULL){
-        if (head->test == key){
+        if (strcmp(head->manufacturer,maker) == 0){
             printf("key found\n");
             printCarModels(head);
             return;
