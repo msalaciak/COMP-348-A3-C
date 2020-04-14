@@ -17,6 +17,7 @@
 typedef struct CarModel {
     
     char model_listing[STRINGSIZE];
+    char brand[STRINGSIZE];
     int counter;
     int size;
 } CarModel;
@@ -37,7 +38,7 @@ void printEntireList(CarMaker* head);
 
 void insertCarMaker(CarMaker * head, char *maker);
 
-void insertCarModel(CarMaker * head, CarModel *model, char *maker);
+void insertCarModel(CarMaker * head, CarModel *model ,char *maker);
 
 void search(CarMaker *head, char *maker);
 

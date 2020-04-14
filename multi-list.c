@@ -21,29 +21,47 @@ void printCarMakers(CarMaker* head) {
 
 void printCarModels(CarMaker* head)
 {
-    CarMaker * current = head->below;
-    while(current != NULL){
-        printf("%s \n", current->car.model_listing);
-        current = current->below;
+
+    CarMaker * current = head;
+     CarMaker * currentBelow = head ->below;
+    while(current != NULL) {
+        currentBelow = current ->below;
+        while(currentBelow !=NULL) {
+            printf("%s \n", currentBelow->car.model_listing);
+            currentBelow = currentBelow ->below;
+        }
+        current = current->next;
     }
+    
+    
     
 }
 
 
 void printEntireList(CarMaker* head) {
-    CarMaker * current = head;
+
+   CarMaker * current = head;
+    CarMaker * currentBelow = head ->below;
+   while(current != NULL) {
+       currentBelow = current ->below;
+       while(currentBelow !=NULL) {
+           printf("%s ", currentBelow->car.brand);
+           printf("%s \n", currentBelow->car.model_listing);
+           currentBelow = currentBelow ->below;
+       }
+       current = current->next;
+   }
+   
+   
+
     
-    
-    while (current != NULL) {
-        printCarMakers(current);
-        printCarModels(current);
-        current = current->next;
-    }
+   
 }
 
 
 void insertCarMaker(CarMaker * head, char *maker) {
     CarMaker * current = head;
+    
     while (current->next != NULL) {
         current = current->next;
     }
@@ -59,24 +77,24 @@ void insertCarMaker(CarMaker * head, char *maker) {
 
 void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
     CarMaker * current = head;
-    
     while (current->next != NULL) {
-        if(current->manufacturer == maker) {
-            break;
-        } else {
-            current = current->next;
-        }
         
+   
+        if (strcmp(current->manufacturer,maker) == 0) {
+            break;
+            
+        } else {
+               current = current->next;
+        }
+     
     }
-    
-       
+
     while (current->below != NULL) {
         current = current->below;
     }
-    
+
     current->below = (CarMaker *) malloc(sizeof(CarMaker));
     current->below->car = *model;
-//    strcpy(current->below->car.model_listing,model);
     current->below->next = NULL;
     current->below->below = NULL;
     
@@ -88,8 +106,10 @@ void search(CarMaker *head, char *maker){
   
     while (head != NULL){
         if (strcmp(head->manufacturer,maker) == 0){
-            printf("key found\n");
-            printCarModels(head);
+            printf("Listing(s) found\n");
+//            printCarMakers(head);
+//            printCarModels(head);
+//            printEntireList(head)  ;
             return;
         }
         head = head->next;
