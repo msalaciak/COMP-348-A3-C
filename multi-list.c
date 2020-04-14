@@ -107,9 +107,16 @@ void search(CarMaker *head, char *maker){
     while (head != NULL){
         if (strcmp(head->manufacturer,maker) == 0){
             printf("Listing(s) found\n");
-//            printCarMakers(head);
-//            printCarModels(head);
-//            printEntireList(head)  ;
+
+            printf("%s,",head->manufacturer );
+            CarMaker * currentBelow = head->below;
+            
+            while(currentBelow !=NULL) {
+                      printf("%s \n", currentBelow->car.model_listing);
+                      currentBelow = currentBelow ->below;
+                  }
+                
+            
             return;
         }
         head = head->next;
@@ -117,3 +124,5 @@ void search(CarMaker *head, char *maker){
     printf("Key not found\n");
     
 }
+
+

@@ -32,7 +32,7 @@ int main(int argc, const char * argv[]) {
     //            printEntireList(head);
     
     
-    search(head, "Honda");
+//    search(head, "Toyota");
     
     
     
@@ -168,9 +168,5 @@ void Add2Inventory (CarMaker *head, char * car) {
     insertCarMaker(head,newMaker.manufacturer);
     insertCarModel(head, &newCar, newCar.brand);
     
-    
-    
-    
-    
-    
+
 }
