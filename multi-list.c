@@ -2,8 +2,8 @@
 //  multi-list.c
 //  comp-348-question-2
 //
-//  Created by Matt Salaciak on 2020-04-12.
-//  Copyright © 2020 Matt Salaciak. All rights reserved.
+//Matthew Salaciak
+//29644490
 //
 
 #include "multi-list.h"
