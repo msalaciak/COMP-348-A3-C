@@ -105,20 +105,23 @@ void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
 void searchInventory(CarMaker *head, char *maker){
     printf("you searched for...");
     printf("%s\n" , maker);
+ CarMaker * current = head;
     int found =0;
-    while (head != NULL){
-        if ((strcmp(head->manufacturer,maker) == 0) || (strcmp( head->make.model, maker) == 0)
-            || (strcmp( head->make.trim, maker) == 0)
-            || (strcmp( head->make.km, maker) == 0)
-            || (strcmp( head->make.year, maker) == 0)
-            || (strcmp( head->make.type, maker) == 0)
-            || (strcmp( head->make.driveTrain, maker) == 0)
-            || (strcmp( head->make.trans, maker) == 0)
-            || (strcmp( head->make.IDnum, maker) == 0)
-            || (strcmp( head->make.status, maker) == 0)){
+    while (current != NULL){
+          
+        if ((strcmp(current->manufacturer,maker) == 0)
+            ||(strcmp( current->make.model, maker) == 0)
+            || (strcmp( current->make.trim, maker) == 0)
+            || (strcmp( current->make.km, maker) == 0)
+            || (strcmp( current->make.year, maker) == 0)
+            || (strcmp( current->make.type, maker) == 0)
+            || (strcmp( current->make.driveTrain, maker) == 0)
+            || (strcmp( current->make.trans, maker) == 0)
+            || (strcmp( current->make.IDnum, maker) == 0)
+            || (strcmp( current->make.status, maker) == 0)){
            
             found=1;
-            CarMaker * currentBelow = head->below;
+            CarMaker * currentBelow = current->below;
             
             while(currentBelow !=NULL) {
                 printf("%s,", currentBelow->car.brand);
@@ -132,7 +135,7 @@ void searchInventory(CarMaker *head, char *maker){
       
 
 
-        head = head->next;
+        current = current->next;
        
     }
 
@@ -294,6 +297,7 @@ void Add2Inventory (CarMaker *head, char * car) {
     int lineCounter = 1;
     int amountOfLines = 1;
     
+  
     
     amountOfLines = lineCounter;
     struct CarModel newCar;
@@ -308,17 +312,58 @@ void Add2Inventory (CarMaker *head, char * car) {
     while (*parsedInventory != 0 && *(parsedInventory++) != ',') {}
     strcpy(newCar.model_listing, parsedInventory);
     
+//
     
+    char infoParsed[256];
+    strcpy(infoParsed, car);
+ 
+           char *listingParse = strtok(infoParsed, ",");
+           int switchCounter =0;
+           while (listingParse != NULL)
+           {
+               
+               switch (switchCounter)
+               {
+                   case 0:  strcpy(newCarInfo.manufacturer, listingParse);
+                       break;
+                   case 1:strcpy(newCarInfo.model, listingParse);
+                       break;
+                   case 2:strcpy(newCarInfo.trim, listingParse);
+                       break;
+                   case 3: strcpy(newCarInfo.km, listingParse);
+                       break;
+                   case 4:strcpy(newCarInfo.year, listingParse);
+                       break;
+                   case 5:strcpy(newCarInfo.type, listingParse);
+                       break;
+                   case 6: strcpy(newCarInfo.driveTrain, listingParse);
+                       break;
+                   case 7: strcpy(newCarInfo.trans, listingParse);
+                       break;
+                   case 8: strcpy(newCarInfo.IDnum, listingParse);
+                       break;
+                   case 9:strcpy(newCarInfo.status, listingParse);
+                       break;
+           
+               }
+               
+             
+        
+               listingParse = strtok(NULL, ",");
+               switchCounter++;
+               
+               
+           }
+           
+//  printf("%s\n", newCarInfo.model);
+
     
-    
-    
-    
-    char listing[25];
+    char listing[256];
     strcpy(listing, car);
     char delim[] = ",";
     
     char *ptr = strtok(listing, delim);
-    
+       
     strcpy(newCar.brand, ptr);
     strcpy(newMaker.manufacturer, ptr);
     

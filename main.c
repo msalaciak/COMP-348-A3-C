@@ -27,11 +27,11 @@ int main(int argc, const char * argv[]) {
     
     
 //                printEntireList(head);
-//                Add2Inventory(head, "Honda,CRV,102km");
+                Add2Inventory(head, "Toyota,RAV4,SE,1231km,2017,Sedan,AWD,auto,12516A,Used,5.5L/100km,{AC, Heated Seats, Heated Mirrors, Keyless Entry}");
                 printEntireList(head);
     
     
-    searchInventory(head, "used");
+    searchInventory(head, "SE");
     
     
     
