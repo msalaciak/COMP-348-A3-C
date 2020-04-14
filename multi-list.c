@@ -13,10 +13,11 @@ void printCarMakers(CarMaker* head) {
     
     
     while (current != NULL) {
-        printf("%s ", current->manufacturer);
+        printf("%s \n", current->manufacturer);
         
         current = current->next;
     }
+    printf("\n");
 }
 
 void printCarModels(CarMaker* head)
@@ -32,7 +33,7 @@ void printCarModels(CarMaker* head)
         }
         current = current->next;
     }
-    
+    printf("\n");
     
     
 }
@@ -52,15 +53,27 @@ void printEntireList(CarMaker* head) {
         current = current->next;
     }
     
-    
+    printf("\n");
     
     
     
 }
 
 
-void insertCarMaker(CarMaker * head, char *maker, CarInfo * make) {
+void insertCarMaker(CarMaker * head,char *maker, CarInfo * make, CarModel *model) {
     CarMaker * current = head;
+    
+    if(head == NULL){
+        current->next = (CarMaker *) malloc(sizeof(CarMaker));
+        strcpy(head->manufacturer,maker);
+        head->make = *make;
+        head->car = *model;
+        head->next = NULL;
+        head->below = NULL;
+        head->size++;
+        return;
+        
+    }
     
     while (current->next != NULL) {
         current = current->next;
@@ -72,16 +85,17 @@ void insertCarMaker(CarMaker * head, char *maker, CarInfo * make) {
     current->next->make = *make;
     current->next->next = NULL;
     current->next->below = NULL;
+    current->next->car = *model;
     current->size++;
     
 }
 
-void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
+void insertCarModel(CarMaker * head, CarModel *model, char *maker, CarInfo * make) {
     CarMaker * current = head;
     while (current->next != NULL) {
         
         
-        if (strcmp(current->manufacturer,maker) == 0) {
+        if (strcmp(current->manufacturer,maker) == 1) {
             break;
             
         } else {
@@ -98,6 +112,7 @@ void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
     current->below->car = *model;
     current->below->next = NULL;
     current->below->below = NULL;
+    current->below->make = *make;
     
     
 }
@@ -105,11 +120,15 @@ void insertCarModel(CarMaker * head, CarModel *model, char *maker) {
 void searchInventory(CarMaker *head, char *maker){
     printf("you searched for...");
     printf("%s\n" , maker);
- CarMaker * current = head;
+    
+    
+    
+    CarMaker * current = head;
+    CarMaker * currentBelow = head->below;
     int found =0;
     while (current != NULL){
-          
-        if ((strcmp(current->manufacturer,maker) == 0)
+        currentBelow = current ->below;
+        if ((strcmp(current->make.manufacturer,maker) == 0)
             ||(strcmp( current->make.model, maker) == 0)
             || (strcmp( current->make.trim, maker) == 0)
             || (strcmp( current->make.km, maker) == 0)
@@ -119,31 +138,34 @@ void searchInventory(CarMaker *head, char *maker){
             || (strcmp( current->make.trans, maker) == 0)
             || (strcmp( current->make.IDnum, maker) == 0)
             || (strcmp( current->make.status, maker) == 0)){
-           
+            
             found=1;
-            CarMaker * currentBelow = current->below;
+            
+            
             
             while(currentBelow !=NULL) {
                 printf("%s,", currentBelow->car.brand);
                 printf("%s\n", currentBelow->car.model_listing);
+                 printf("\n");
                 currentBelow = currentBelow ->below;
             }
             
             
-            
         }
-      
-
-
+        
+        
+        
+        
         current = current->next;
-       
     }
-
+    
     if(found ==0){
         printf("The search for...");
         printf("%s ",maker);
-    printf("...was not found sorry!\n");
+        printf("...was not found sorry!\n");
+        printf("\n");
     }
+    
     
 }
 
@@ -193,15 +215,6 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
     }
     
     
-    for(lineCounter = 0; lineCounter < amountOfLines; ++lineCounter)
-    {
-        char *parsedInventory = line[lineCounter];
-        while (*parsedInventory != 0 && *(parsedInventory++) != ',') {}
-        //        strcpy(carModels[lineCounter].model_listing, parsedInventory);
-        //        printf("%s \n",parsedInventory);
-        
-        
-    }
     
     
     // Keep printing tokens while one of the
@@ -235,11 +248,11 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
                     break;
                 case 9:strcpy(carData[k].status, listingParse);
                     break;
-        
+                    
             }
             
-           
-          
+            
+            
             listingParse = strtok(NULL, ",");
             switchCounter++;
             
@@ -256,33 +269,26 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
     int parseCounter = 0;
     while (parseCounter <amountOfLines)
     {
+        ptr = strtok(line[parseCounter], delim);
         strcpy(carModels[parseCounter].brand, ptr);
         strcpy(manufacturers[parseCounter].manufacturer, ptr);
-        
-        ptr = strtok(line[parseCounter+1], delim);
         
         
         parseCounter++;
     }
     
     
-    
     //create car inventory system
     
     //    //input first elements
-    head -> size =0;
-    strcpy(head->manufacturer,manufacturers[0].manufacturer);
     head->next = NULL;
-    head->below = NULL;
-    head->make = carData[0];
+    head->below= NULL;
     
-    insertCarModel(head, &carModels[0], manufacturers[0].manufacturer); //first - 1st below
-    
-    //starts at lineCounter 1 because we already used the first array position to initialize the multi-linked list
-    for(lineCounter=1; lineCounter < amountOfLines; lineCounter++){
-        insertCarMaker(head,manufacturers[lineCounter].manufacturer,&carData[lineCounter]);
-        insertCarModel(head, &carModels[lineCounter], carModels[lineCounter].brand);
-                
+    for(lineCounter=0; lineCounter < amountOfLines; lineCounter++){
+        
+        insertCarMaker(head,manufacturers[lineCounter].manufacturer,&carData[lineCounter], &carModels[lineCounter]);
+        insertCarModel(head, &carModels[lineCounter], carData[lineCounter].manufacturer,&carData[lineCounter] );
+        
     }
     
     
@@ -297,7 +303,7 @@ void Add2Inventory (CarMaker *head, char * car) {
     int lineCounter = 1;
     int amountOfLines = 1;
     
-  
+    
     
     amountOfLines = lineCounter;
     struct CarModel newCar;
@@ -312,65 +318,87 @@ void Add2Inventory (CarMaker *head, char * car) {
     while (*parsedInventory != 0 && *(parsedInventory++) != ',') {}
     strcpy(newCar.model_listing, parsedInventory);
     
-//
+    //
     
     char infoParsed[256];
     strcpy(infoParsed, car);
- 
-           char *listingParse = strtok(infoParsed, ",");
-           int switchCounter =0;
-           while (listingParse != NULL)
-           {
-               
-               switch (switchCounter)
-               {
-                   case 0:  strcpy(newCarInfo.manufacturer, listingParse);
-                       break;
-                   case 1:strcpy(newCarInfo.model, listingParse);
-                       break;
-                   case 2:strcpy(newCarInfo.trim, listingParse);
-                       break;
-                   case 3: strcpy(newCarInfo.km, listingParse);
-                       break;
-                   case 4:strcpy(newCarInfo.year, listingParse);
-                       break;
-                   case 5:strcpy(newCarInfo.type, listingParse);
-                       break;
-                   case 6: strcpy(newCarInfo.driveTrain, listingParse);
-                       break;
-                   case 7: strcpy(newCarInfo.trans, listingParse);
-                       break;
-                   case 8: strcpy(newCarInfo.IDnum, listingParse);
-                       break;
-                   case 9:strcpy(newCarInfo.status, listingParse);
-                       break;
-           
-               }
-               
-             
+    
+    char *listingParse = strtok(infoParsed, ",");
+    int switchCounter =0;
+    while (listingParse != NULL)
+    {
         
-               listingParse = strtok(NULL, ",");
-               switchCounter++;
-               
-               
-           }
-           
-//  printf("%s\n", newCarInfo.model);
-
+        switch (switchCounter)
+        {
+            case 0:  strcpy(newCarInfo.manufacturer, listingParse);
+                break;
+            case 1:strcpy(newCarInfo.model, listingParse);
+                break;
+            case 2:strcpy(newCarInfo.trim, listingParse);
+                break;
+            case 3: strcpy(newCarInfo.km, listingParse);
+                break;
+            case 4:strcpy(newCarInfo.year, listingParse);
+                break;
+            case 5:strcpy(newCarInfo.type, listingParse);
+                break;
+            case 6: strcpy(newCarInfo.driveTrain, listingParse);
+                break;
+            case 7: strcpy(newCarInfo.trans, listingParse);
+                break;
+            case 8: strcpy(newCarInfo.IDnum, listingParse);
+                break;
+            case 9:strcpy(newCarInfo.status, listingParse);
+                break;
+                
+        }
+        
+        
+        
+        listingParse = strtok(NULL, ",");
+        switchCounter++;
+        
+        
+    }
+    
+    
+    
     
     char listing[256];
     strcpy(listing, car);
     char delim[] = ",";
     
     char *ptr = strtok(listing, delim);
-       
+    
     strcpy(newCar.brand, ptr);
     strcpy(newMaker.manufacturer, ptr);
     
-    insertCarMaker(head,newMaker.manufacturer, &newCarInfo);
-    insertCarModel(head, &newCar, newCar.brand);
+    //    printCarMakers(head);
+    
+    insertCarMaker(head,newMaker.manufacturer, &newCarInfo, &newCar);
+    insertCarModel(head, &newCar, newCar.brand,&newCarInfo);
     
     
     
 }
+
+
+void saveCatalogue2File(CarMaker *head, char *fileName){
+    FILE *f = fopen(fileName, "w");
+    
+    CarMaker * current = head;
+       CarMaker * currentBelow = head ->below;
+       while(current != NULL) {
+           currentBelow = current ->below;
+           while(currentBelow !=NULL) {
+               fprintf(f,"%s,", currentBelow->car.brand);
+               fprintf(f,"%s \n", currentBelow->car.model_listing);
+               currentBelow = currentBelow ->below;
+           }
+           current = current->next;
+       }
+    
+    fclose(f);
+}
+
 

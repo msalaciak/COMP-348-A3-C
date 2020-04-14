@@ -13,18 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
-
-typedef struct CarModel {
-    
-    char model_listing[STRINGSIZE];
-    char brand[STRINGSIZE];
-    int counter;
-    int size;
-
-} CarModel;
-
 typedef struct CarInfo {
     char manufacturer[STRINGSIZE];
     char model[STRINGSIZE];
@@ -37,6 +25,19 @@ typedef struct CarInfo {
     char IDnum[STRINGSIZE];
     char status[STRINGSIZE];
 } CarInfo;
+
+
+
+typedef struct CarModel {
+    
+    char model_listing[STRINGSIZE];
+    char brand[STRINGSIZE];
+    int counter;
+    int size;
+    CarInfo make;
+
+} CarModel;
+
 
 typedef struct CarMaker {
     char manufacturer[STRINGSIZE];
@@ -55,15 +56,12 @@ typedef struct CarMaker {
 void printCarMakers(CarMaker * head);
 void printCarModels(CarMaker* head);
 void printEntireList(CarMaker* head);
-
-void insertCarMaker(CarMaker * head, char *maker, CarInfo * make);
-
-void insertCarModel(CarMaker * head, CarModel *model ,char *maker);
-
+void insertCarMaker(CarMaker * head, char *maker, CarInfo * make, CarModel *model);
+void insertCarModel(CarMaker * head, CarModel *model ,char *maker, CarInfo * make);
 void searchInventory(CarMaker *head, char *maker);
-
 void convertListings2Catalougue(CarMaker *head,char *fileName);
 void Add2Inventory (CarMaker *head, char * car);
+void saveCatalogue2File(CarMaker *head,char *fileName);
 
 
 
