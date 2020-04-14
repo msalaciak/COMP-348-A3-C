@@ -8,6 +8,12 @@
 
 #include "multi-list.h"
 
+//the print methods below all funciton similary
+//they traverse the list using pointers either current - > next or current -> below
+// for carMakers we only use current -> next because those are the "top " level of the link
+// for CarModels we go through each top level by using the  current -> next
+//but once at that pointer we use current- >below to go to the down the levels of the list at that point
+
 void printCarMakers(CarMaker* head) {
     CarMaker * current = head;
     
@@ -59,6 +65,9 @@ void printEntireList(CarMaker* head) {
     
 }
 
+// Inserts a CarMaker object into the list, if its null it creates the first "node"
+//if its not null it will keep going to the next - > null point and add it there
+// it only uses current -> next because we are only adding to the top layer since it is carMakers
 
 void insertCarMaker(CarMaker * head,char *maker, CarInfo * make, CarModel *model) {
     CarMaker * current = head;
@@ -90,6 +99,12 @@ void insertCarMaker(CarMaker * head,char *maker, CarInfo * make, CarModel *model
     
 }
 
+
+//essentially works like insertCarMaker but this time it takes CarModel and CarInfo structs
+//it traverses the list and compares the current positon manufacturer to the one being inserted, if it is the same it will add it to that
+//CarMaker, if it is not, it will add it to the one it will be created
+// once at its top level posiiton in the list, it will use current->below to traverse the levels of the list at that point
+
 void insertCarModel(CarMaker * head, CarModel *model, char *maker, CarInfo * make) {
     CarMaker * current = head;
     while (current->next != NULL) {
@@ -117,6 +132,11 @@ void insertCarModel(CarMaker * head, CarModel *model, char *maker, CarInfo * mak
     
 }
 
+
+//search inventory traverses the list very similar to how the print function is implemeneted,
+//but it will do a strcmp to the inserted search parameter and the paramteres of the given carModel/CarInfo struct
+//if it is a match it will print and keep going until null
+//if there is no match it will say a message and exit
 void searchInventory(CarMaker *head, char *maker){
     printf("you searched for...");
     printf("%s\n" , maker);
@@ -169,6 +189,11 @@ void searchInventory(CarMaker *head, char *maker){
     
 }
 
+//this method is very much similar to the method implemeneted in Q5 with ruby
+// takes the CarMaker head struct, and the char to the file path
+//parses what is necessary, since it is already sorted and organized from the text file outputted by Q5
+//it is just simiply using a delimter to find what is needed
+//creates CarModel, CarInfo and CarMaker structs so they are filled and inserted into the list
 
 void convertListings2Catalougue(CarMaker *head,char *fileName){
     FILE *file;
@@ -192,7 +217,7 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
         
     }
     
-    
+    //lines from the file so this is used for all the loops to count where eveything is at
     amountOfLines = lineCounter;
     
     
@@ -217,8 +242,10 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
     
     
     
-    // Keep printing tokens while one of the
-    // delimiters present in str[].
+  //parse through the lines so each paramter of the CarInfo struct can be added
+//how this is done is a switch counter is kept, when its a certain number it will call strcpy to copy the parsed char string to the struct
+    
+    
     for(int k =0; k<amountOfLines; k++) {
         char *fileParsed = line[k];
         char *listingParse = strtok(fileParsed, ",");
@@ -284,6 +311,7 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
     head->next = NULL;
     head->below= NULL;
     
+    //loop through each struct and insert it!
     for(lineCounter=0; lineCounter < amountOfLines; lineCounter++){
         
         insertCarMaker(head,manufacturers[lineCounter].manufacturer,&carData[lineCounter], &carModels[lineCounter]);
@@ -295,6 +323,7 @@ void convertListings2Catalougue(CarMaker *head,char *fileName){
     
 }
 
+//same function are before but instead of going through a loop, CarModel, CarInfo and CarMaker are created once and inserted once
 void Add2Inventory (CarMaker *head, char * car) {
     
     //    char line[900][900];
@@ -318,8 +347,7 @@ void Add2Inventory (CarMaker *head, char * car) {
     while (*parsedInventory != 0 && *(parsedInventory++) != ',') {}
     strcpy(newCar.model_listing, parsedInventory);
     
-    //
-    
+        
     char infoParsed[256];
     strcpy(infoParsed, car);
     
@@ -373,7 +401,7 @@ void Add2Inventory (CarMaker *head, char * car) {
     strcpy(newCar.brand, ptr);
     strcpy(newMaker.manufacturer, ptr);
     
-    //    printCarMakers(head);
+
     
     insertCarMaker(head,newMaker.manufacturer, &newCarInfo, &newCar);
     insertCarModel(head, &newCar, newCar.brand,&newCarInfo);
@@ -382,6 +410,9 @@ void Add2Inventory (CarMaker *head, char * car) {
     
 }
 
+
+//this is a modify print entire list function from above,
+//but instead of using printf, i use fprintf so we can save the ouput to a file
 
 void saveCatalogue2File(CarMaker *head, char *fileName){
     FILE *f = fopen(fileName, "w");
